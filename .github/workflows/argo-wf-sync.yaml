@@ -11,16 +11,16 @@ jobs:
     - name: Login to ArgoWF Dev
       run: echo "Login to ArgoWF-Dev Successful!"
   linting:
+    needs: [ build, login ]
     runs-on: ubuntu-latest
     steps:
     - name: Check YAML Linting
-      needs: [ build, login ] 
       run: echo "Linting Successful!"
   workflow-check:
+    needs: [ build, login, linting ] 
     runs-on: ubuntu-latest
     steps:
     - name: Argo Workflow Checking
-      needs: [ build, login, linting ] 
       run: |
         echo Check 1 Passed,
         echo Check 2 Passed
