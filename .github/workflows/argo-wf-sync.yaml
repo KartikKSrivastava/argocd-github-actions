@@ -37,10 +37,10 @@ jobs:
     - run: |
          readarray -t added_modified_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
          for added_modified_files in ${added_modified_files[@]}; do
-         abc=${{ steps.files.outputs.added_modified }}
-         abc=$ basename abc
-         echo "Running my ArgoWF commands for added/modified file -> "$abc
+         $ INPUT="${{ steps.files.outputs.added_modified }}"
+         echo "Running my ArgoWF commands for added/modified file -> $ echo ${INPUT##*/}
          done
+         
          readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
          for removed_file in ${removed_files[@]}; do
          echo "Running my ArgoWF commands for removed file -> ${removed_file}."
