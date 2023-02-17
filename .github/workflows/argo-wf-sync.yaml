@@ -29,13 +29,6 @@ jobs:
          for changed_file in ${{ steps.files.outputs.all }}; do
          echo "Do something with this ${changed_file}."
          done
-    - name: get changed files
-      id: getfile
-      run: |
-          echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)"
-    - name: echo output
-      run: |
-         echo ${{ steps.getfile.outputs.files }}
   workflow-check:
     needs: [ build, login, linting, file-changed ] 
     runs-on: ubuntu-latest
