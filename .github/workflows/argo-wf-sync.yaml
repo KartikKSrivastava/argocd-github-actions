@@ -18,8 +18,19 @@ jobs:
     steps:
     - name: Check YAML Linting
       run: echo "Linting Successful!"
+  file-changed:
+    needs: [ build, login, linting ]
+    runs-on: ubuntu-latest
+    steps:  
+    - name: get changed files
+      id: getfile
+      run: |
+          echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)"
+    - name: echo output
+      run: |
+         echo ${{ steps.getfile.outputs.files }}
   workflow-check:
-    needs: [ build, login, linting ] 
+    needs: [ build, login, linting, file-changed ] 
     runs-on: ubuntu-latest
     steps:
     - name: Argo Workflow Checking
