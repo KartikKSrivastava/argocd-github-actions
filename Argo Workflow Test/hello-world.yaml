@@ -5,7 +5,7 @@ metadata:
 spec:
   entrypoint: whalesay          # invoke the whalesay template
   templates:
-    - name: whalesay              # name of the template
+    - name: whalesay11              # name of the template
       container:
         image: docker/whalesay
         command: [ cowsay ]
