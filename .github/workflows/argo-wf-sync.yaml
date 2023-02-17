@@ -19,9 +19,14 @@ jobs:
     - name: Check YAML Linting
       run: echo "Linting Successful!"
   file-changed:
+    
     needs: [ build, login, linting ]
     runs-on: ubuntu-latest
     steps:  
+    - name: get changed files 1
+      id: getfile1
+      run: |
+          git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
     - name: get changed files
       id: getfile
       run: |
