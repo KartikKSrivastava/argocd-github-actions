@@ -35,9 +35,13 @@ jobs:
       with:
         format: 'json'
     - run: |
+         readarray -t added_modified_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
+         for added_modified_files in ${added_modified_files[@]}; do
+         echo "Running my ArgoWF commands for added/modified file -> ${added_modified}."
+         done
          readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
          for removed_file in ${removed_files[@]}; do
-         echo "Do something with this ${removed_file}."
+         echo "Running my ArgoWF commands for removed file -> ${removed_file}."
          done
   workflow-check:
     needs: [ build, login, linting, file-changed ] 
