@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: testing-wf
+  name: testing-wf 
 spec:
   entrypoint: whalesay
   templates:
