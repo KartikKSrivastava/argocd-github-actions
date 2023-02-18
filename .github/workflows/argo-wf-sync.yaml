@@ -1,7 +1,9 @@
 name: argo-wf-sync
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "dev" ] 
+#     paths:
+#       - dev-argo-workflow/**
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,13 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:    
     - name: Login to ArgoWF Dev
-      run: echo "Login to ArgoWF-Dev Successful!"
+      run: |
+        curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.1.3/argo-linux-amd64.gz
+        echo "Login to ArgoWF-Dev Successful!"
   linting:
     needs: [ build, login ]
     runs-on: ubuntu-latest
     steps:
     - name: Check YAML Linting
-      run: echo "Linting Successful!"
+      run:
+        echo "Linting Successful!"
   file-changed:  
     needs: [ build, login, linting ]
     runs-on: ubuntu-latest
@@ -38,7 +43,8 @@ jobs:
          readarray -t added_modified_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
          for added_modified_files in ${added_modified_files[@]}; do
          echo "Running my ArgoWF commands for added/modified file ->"
-         echo ${added_modified_files} | sed 's:.*/::'
+         filename=$(echo ${added_modified_files} | sed 's:.*/::')
+         echo $filename
          done
          
          readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
