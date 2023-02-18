@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
-kind: WorkflowTemplate                  # new type of k8s spec
+kind: WorkflowTemplate
 metadata:
-  name: testing-wf    # name of the workflow spec
+  name: testing-wf
 spec:
-  entrypoint: whalesay          # invoke the whalesay template
+  entrypoint: whalesay
   templates:
-    - name: whalesay              # name of the template
+    - name: whalesay
       container:
         image: docker/whalesay
         command: [ cowsay ]
