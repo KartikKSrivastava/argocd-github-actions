@@ -2,8 +2,8 @@ name: argo-wf-sync
 on:
   push:
     branches: [ "dev" ] 
-#     paths:
-#       - dev-argo-workflow/**
+    paths:
+      - dev-argo-workflow/**
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,6 +45,7 @@ jobs:
          echo "Running my ArgoWF commands for added/modified file ->"
          filename=$(echo ${added_modified_files} | sed 's:.*/::')
          echo $filename
+         argo lint $filename
          done
          
          readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
